@@ -1,3 +1,5 @@
+[![image](https://img.shields.io/npm/v/@defi-wonderland/smock.svg?style=flat-square)](https://www.npmjs.org/package/@defi-wonderland/keep3r-cli-job-maker)
+
 # MakerDAO CLI Job
 
 This job enable The Keep3r Network keepers on Ethereum to execute the different MakerDAO jobs.

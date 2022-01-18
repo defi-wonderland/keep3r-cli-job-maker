@@ -1,4 +1,4 @@
-# Mushrooms Finance CLI Job
+# MakerDAO CLI Job
 
 This job enable The Keep3r Network keepers on Ethereum to execute the different MakerDAO jobs.
 

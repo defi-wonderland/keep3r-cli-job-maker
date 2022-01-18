@@ -51,7 +51,7 @@ const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
       // create work tx
       const tx = await job.populateTransaction.work(workableJob.job, workableJob.args, {
         nonce: args.keeperNonce,
-        gasLimit: 2_000_000,
+        gasLimit: 5_000_000,
         type: 2,
       });
 

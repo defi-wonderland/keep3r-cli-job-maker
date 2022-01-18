@@ -1,17 +1,18 @@
 {
-  "name": "@defi-wonderland/keep3r-cli-job-boilerplate",
+  "name": "@defi-wonderland/keep3r-cli-job-maker",
   "version": "1.0.1",
-  "description": "Keep3r CLI Job Boilerplate",
+  "description": "MakerDAO CLI Job for The Keep3r Network",
   "keywords": [
     "keep3r",
     "cli",
     "job",
-    "boilerplate",
+    "maker",
+    "sample",
     "ethereum"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/defi-wonderland/keep3r-cli-job-boilerplate.git"
+    "url": "git+https://github.com/defi-wonderland/keep3r-cli-job-maker.git"
   },
   "license": "MIT",
   "author": "DeFi Wonderland",

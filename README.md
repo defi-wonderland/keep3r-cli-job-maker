@@ -1,6 +1,8 @@
-# MakerDAO CLI Job
+[![image](https://img.shields.io/npm/v/@defi-wonderland/keep3r-cli-job-maker.svg?style=flat-square)](https://www.npmjs.org/package/@defi-wonderland/keep3r-cli-job-maker)
 
-This job enable The Keep3r Network keepers on Ethereum to execute the different MakerDAO jobs.
+# MakerDAO Keep3r CLI Job
+
+This job enables The Keep3r Network keepers on Ethereum to execute the different MakerDAO jobs.
 
 ## How to install
 

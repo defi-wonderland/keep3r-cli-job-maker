@@ -68,9 +68,9 @@ const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
         workableGroups,
         correlationId: workableJob.job,
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       // handle error logs
-      logConsole.warn('Unexpected error', { message: err.message });
+      logConsole.warn('Unexpected error', { message: (err as Error).message });
     }
   }
 

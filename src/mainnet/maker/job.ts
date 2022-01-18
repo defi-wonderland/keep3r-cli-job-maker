@@ -22,7 +22,7 @@ const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
   const { job, sequencer } = getMainnetSdk(signer);
 
   // get array of workable jobs
-  const jobs = await sequencer.connect(args.keeperAddress).callStatic['getNextJobs(bytes32)'](network);
+  const jobs = await sequencer.callStatic['getNextJobs(bytes32)'](network);
 
   // return if there are no workable jobs
   if (!jobs.length) {
@@ -32,25 +32,24 @@ const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
 
   // for each workable job
   for (const workableJob of jobs) {
-    //skip job if already in progress
+    // setup logs for strategy
+    const jobLogId = `${logMetadata.logId}-${makeid(5)}`;
+    const jobConsole = prelog({ ...logMetadata, logId: jobLogId });
+
+    // skip job if already in progress
     if (args.skipIds.includes(workableJob.job)) {
-      logConsole.log(`Job in progress, avoid running`);
+      jobConsole.log(`Job in progress, avoid running`);
       continue;
     }
 
-    logConsole.warn(`Job ${workableJob.canWork ? `${workableJob.job} is` : `${workableJob.job} is not`} workable`);
+    jobConsole.warn(`Job ${workableJob.job} ${workableJob.canWork ? `is` : `is not`} workable`);
 
-    // check if is the network's turn to work, go to the next job in the array if it isn't
+    // check if it's the network's turn to work, go to the next job in the array if it isn't
     if (!workableJob.canWork) continue;
 
     try {
-      // check if the tx throws an error when called with this parameters
-      await job.connect(args.keeperAddress).callStatic.work(workableJob.job, workableJob.args, {
-        blockTag: args.advancedBlock,
-      });
-
       // create work tx
-      const tx = await job.connect(args.keeperAddress).populateTransaction.work(workableJob.job, workableJob.args, {
+      const tx = await job.populateTransaction.work(workableJob.job, workableJob.args, {
         nonce: args.keeperNonce,
         gasLimit: 2_000_000,
         type: 2,
@@ -70,7 +69,7 @@ const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
       });
     } catch (err: unknown) {
       // handle error logs
-      logConsole.warn('Unexpected error', { message: (err as Error).message });
+      jobConsole.warn('Unexpected error', { message: (err as Error).message });
     }
   }
 

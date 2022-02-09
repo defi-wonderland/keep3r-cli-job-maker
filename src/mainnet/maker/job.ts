@@ -48,12 +48,32 @@ const getWorkableTxs: Job['getWorkableTxs'] = async (args) => {
     if (!workableJob.canWork) continue;
 
     try {
-      // create work tx
-      const tx = await job.populateTransaction.work(workableJob.job, workableJob.args, {
-        nonce: args.keeperNonce,
-        gasLimit: 5_000_000,
-        type: 2,
-      });
+      let tx: any | undefined;
+      try {
+        await job.connect(args.keeperAddress).callStatic.workMetered(workableJob.job, workableJob.args, {
+          blockTag: args.advancedBlock,
+        });
+
+        // create work tx
+        tx = await job.populateTransaction.workMetered(workableJob.job, workableJob.args, {
+          nonce: args.keeperNonce,
+          gasLimit: 5_000_000,
+          type: 2,
+        });
+      } catch (err: unknown) {
+        if ((err as any)?.error?.error?.data?.reason === 'GasMeteredMaximum') {
+          jobConsole.log(`Fallbacking to work`);
+
+          // create work tx
+          tx = await job.populateTransaction.work(workableJob.job, workableJob.args, {
+            nonce: args.keeperNonce,
+            gasLimit: 5_000_000,
+            type: 2,
+          });
+        } else {
+          throw err;
+        }
+      }
 
       // create a workable group every bundle burst
       const workableGroups: JobWorkableGroup[] = new Array(args.bundleBurst).fill(null).map((_, index) => ({

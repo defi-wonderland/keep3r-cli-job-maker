@@ -1,6 +1,6 @@
 {
   "name": "@defi-wonderland/keep3r-cli-job-maker",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "MakerDAO CLI Job for The Keep3r Network",
   "keywords": [
     "keep3r",
